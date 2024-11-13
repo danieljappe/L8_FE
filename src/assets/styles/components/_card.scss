@@ -1,0 +1,22 @@
+// src/assets/styles/components/_card.scss
+@import '../base/variables';
+
+.card {
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 16px $shadow-color;
+  margin: 1rem 0;
+
+  .card-title {
+    margin: 0;
+    font-size: 1.25rem;
+    color: $text-color;
+  }
+
+  .card-content {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: darken($text-color, 15%);
+  }
+}
