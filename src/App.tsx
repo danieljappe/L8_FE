@@ -4,16 +4,14 @@ import './App.css';
 import Button from './components/Button';
 import Card from './components/Card';
 import EventList from './components/EventList';
+import Header from "./components/Header";
+import HomePage from "./components/Homepage";
 
 function App() {
     return (
         <div className="App">
-            <h1>iOS-Style Project</h1>
-            <Card title="Welcome to iOS Style">
-                <p>This is a sample card component styled to resemble iOS.</p>
-                <Button label="Get Started" onClick={() => alert('Button Clicked')} />
-                <EventList />
-            </Card>
+            <Header title="Header"/>
+            <HomePage/>
         </div>
     );
 }

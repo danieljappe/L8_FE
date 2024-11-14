@@ -1,0 +1,63 @@
+// src/assets/styles/layout/_homepage.scss
+
+@import '../base/variables';
+
+.homepage {
+  max-width: 95vw; // You can adjust this width based on your layout preference
+  margin: 0 auto; // Center the container
+  padding: 5rem 1rem; // Add padding for breathing space
+  background-color: $background-color;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .next-event {
+    width: 100%;
+    max-width: 600px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    background-color: $background-color;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+
+    h2 {
+      font-size: 1.75rem;
+      color: $primary-color;
+      margin-bottom: 1rem;
+    }
+
+    .event-card {
+      padding: 1rem;
+      background-color: lighten($background-color, 10%);
+      border-radius: 8px;
+
+      h3 {
+        font-size: 1.5rem;
+        color: $text-color;
+        margin-bottom: 0.5rem;
+      }
+
+      p {
+        color: darken($text-color, 20%);
+        font-size: 1rem;
+        margin: 0.25rem 0;
+      }
+
+      .details-button {
+        margin-top: 1rem;
+        padding: 0.75rem 1.5rem;
+        background-color: $primary-color;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: darken($primary-color, 10%);
+        }
+      }
+    }
+  }
+}

@@ -5,6 +5,10 @@
 @import './components/button';
 @import './pages/home';
 @import './base/variables';
+@import './layout/header';
+@import './components/homepage';
+
+
 
 body {
   font-family: $font-family;
