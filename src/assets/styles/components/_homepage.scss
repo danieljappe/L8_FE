@@ -24,7 +24,20 @@
     flex-direction: column;
     justify-content: flex-end; /* Position the event list at the bottom */
     overflow-y: auto;
+
+    .next-event-container {
+      flex: 1; /* Allow this container to grow and fill the available space */
+      background-color: #222; /* Optional: Background color for visibility */
+      padding: 1rem;
+      color: #fff; /* Adjust text color for visibility */
+      display: flex; /* Flexbox for aligning content */
+      flex-direction: column; /* Arrange children vertically */
+      justify-content: center; /* Center content vertically */
+      align-items: center; /* Center content horizontally */
+    }
   }
+
+
 
   .event-list-container {
     background-color: #333333;
