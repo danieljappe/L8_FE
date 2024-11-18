@@ -12,7 +12,7 @@
   align-items: center;
 
   section {
-    height: 75vh;
+    height: 82vh;
     width: 98%;
     background-color: #444444;
     padding: 1.5rem;
@@ -24,6 +24,7 @@
     flex-direction: column;
     justify-content: flex-end; /* Position the event list at the bottom */
     overflow-y: auto;
+    overflow-x: hidden;
 
     .next-event-container {
       flex: 1; /* Allow this container to grow and fill the available space */
@@ -37,10 +38,33 @@
     }
   }
 
-
-
   .event-list-container {
     background-color: #333333;
+
+    .slick-slide[aria-hidden="true"] .event-card-content {
+      pointer-events: none; /* Prevent interaction */
+    }
+
+    .slider-container{
+      padding: 0.5rem;
+      background-color: #555;
+    }
+
+    .slick-slide .event-card{
+      //border-left: 1px dashed red;
+    }
+
+    .slick-slide .event-card-content{
+      //border: 1px solid blue;
+      margin: 1vw;
+    }
+
+    .slick-slide:hover .event-card-content {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      border-radius: 15px;
+      cursor: pointer;
+    }
 
    .event-list {
      display: flex;
@@ -69,11 +93,20 @@
        color: #fff; /* White text for better visibility on the image */
        position: relative;
        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+       transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-       .event-card-content{
-         background: rgba(0, 0, 0, 0.5); /* Add a semi-transparent overlay */
-         border-radius: 8px;
+
+       .event-card-content {
+         position: absolute;
+         bottom: 0;
+         left: 0;
+         right: 0;
          padding: 1rem;
+         background: rgba(0, 0, 0, 0.6);
+         color: #fff;
+         transition: transform 0.3s ease, opacity 0.3s ease;
+         opacity: 0;
+         transform: translateY(20px); /* Initially hidden below */
        }
 
        img {

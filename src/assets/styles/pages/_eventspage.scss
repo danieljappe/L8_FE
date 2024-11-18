@@ -1,0 +1,59 @@
+// src/assets/styles/layout/_homepage.scss
+
+@import '../base/variables';
+
+.eventspage {
+  max-width: 95vw; // You can adjust this width based on your layout preference
+  margin: 0 auto; // Center the container
+  padding: 5rem 1rem; // Add padding for breathing space
+  background-color: $background-color;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  section {
+    width: 98%;
+    background-color: #444444;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Position the event list at the bottom */
+    overflow-y: auto;
+
+
+    .title-container {
+      flex: 1; /* Allow this container to grow and fill the available space */
+      background-color: #222; /* Optional: Background color for visibility */
+      padding: 1rem;
+      color: #fff; /* Adjust text color for visibility */
+      display: flex; /* Flexbox for aligning content */
+      flex-direction: column; /* Arrange children vertically */
+      justify-content: center; /* Center content vertically */
+      align-items: center; /* Center content horizontally */
+    }
+
+    .event-table {
+      padding: 1rem;
+      border-radius: 0 0 25px 25px;
+      background-color: #555;
+
+      .event-card {
+        background-color: #666;
+        padding: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+      .event-card:hover{
+        background-color: #444;
+        cursor: pointer;
+      }
+
+      .event-card-content{
+
+      }
+    }
+  }
+}

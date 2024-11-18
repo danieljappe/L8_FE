@@ -27,10 +27,12 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
 
     return (
         <header className={`header ${isVisible ? 'visible' : 'hidden'}`}>
-            <img src={logo} alt="Logo" className="logo" />
+            <a href="/">
+                <img src={logo} alt="Logo" className="logo"/>
+            </a>
             <nav className="nav-links">
                 <a href="#home">Næste Event</a>
-                <a href="#about">Events</a>
+                <a href="/events">Events</a>
                 <a href="#services">Om L8</a>
                 <a href="#contact">Contact</a>
             </nav>

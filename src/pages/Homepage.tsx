@@ -51,6 +51,13 @@ const HomePage: React.FC = () => {
         return index !== -1 ? index : 0; // Default to 0 if no future events
     };
 
+    const getUpcomingEvent = (): Event | null => {
+        const now = new Date().getTime();
+        const upcomingEvent = events.find(event => event.date && new Date(event.date).getTime() > now);
+        return upcomingEvent || null;
+    };
+
+
     const settings = {
         className: "center",
         centerMode: true,
@@ -65,11 +72,23 @@ const HomePage: React.FC = () => {
     return (
         <div className="homepage">
             <section>
-                <div className='next-event-container'>
-                    <h1>
-                        Next event:
-                    </h1>
+                <div className="next-event-container">
+                    <h1>Upcoming event:</h1>
+                    {getUpcomingEvent() ? (
+                        <div className="next-event-details">
+                            <h2>{getUpcomingEvent()?.title}</h2>
+                            <p>
+                                <strong>Date:</strong>{' '}
+                                {getUpcomingEvent()?.date ? new Date(getUpcomingEvent()!.date).toLocaleDateString() : 'N/A'}
+                            </p>
+                            <p><strong>Description:</strong> {getUpcomingEvent()?.description}</p>
+                            <p><strong>Ticket Price:</strong> ${getUpcomingEvent()?.ticketPrice}</p>
+                        </div>
+                    ) : (
+                        <p>No upcoming events</p>
+                    )}
                 </div>
+
                 <div className='event-list-container'>
                     <h2>Events:</h2>
                     <div className="slider-container">
@@ -82,16 +101,12 @@ const HomePage: React.FC = () => {
                                         backgroundImage: `url(${stockImage})`
                                     }}
                                 >
-                                    <div className='event-card-content'>
+                                <div className='event-card-content'>
+                                    <a onClick={() => openModal(event)}>
                                         <h3>{event.title}</h3>
                                         <p>Date: {new Date(event.date).toLocaleDateString()}</p>
-                                        <button
-                                            className="details-button"
-                                            onClick={() => openModal(event)}
-                                        >
-                                            View Details
-                                        </button>
-                                    </div>
+                                    </a>
+                                </div>
                                 </div>
                             ))}
                         </Slider>
