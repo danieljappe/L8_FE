@@ -5,6 +5,7 @@ export interface Event {
     title: string;
     description: string;
     date: string;
+    location: string;
     ticketPrice: number;
     eventPicture: string;
     published: number;

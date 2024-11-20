@@ -35,6 +35,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                 <a href="/events">Events</a>
                 <a href="#services">Om L8</a>
                 <a href="#contact">Contact</a>
+                <a href="/users/login">Login</a>
             </nav>
         </header>
     );

@@ -4,6 +4,8 @@ import './App.css';
 import Header from "./components/Header";
 import HomePage from "./pages/Homepage";
 import Eventspage from "./pages/Eventspage";
+import Loginpage from "./pages/Loginpage";
+import Dashboard from "./pages/employee/Dashboard";
 
 function App() {
     return (
@@ -13,6 +15,8 @@ function App() {
                 <Routes>
                     <Route path='/' element={<HomePage />} />
                     <Route path='/events' element={<Eventspage/>} />
+                    <Route path='/users/login' element={<Loginpage/>} />
+                    <Route path='/dashboard' element={<Dashboard/>} />
                 </Routes>
             </div>
         </BrowserRouter>

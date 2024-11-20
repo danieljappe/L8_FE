@@ -43,7 +43,7 @@ const Eventspage: React.FC = () => {
                                 <div className='event-card-content'>
                                     <h3>{event.title}</h3>
                                     <p>Date: {new Date(event.date).toLocaleDateString()}</p>
-                                    //TODO: add
+                                    <p>Location: {event.location}</p>
                                 </div>
                             </div>
                         ))}

@@ -1,0 +1,26 @@
+@import '../base/variables';
+
+
+.loginpage {
+  max-width: 95vw; // You can adjust this width based on your layout preference
+  margin: 0 auto; // Center the container
+  padding: 5rem 1rem; // Add padding for breathing space
+  background-color: $background-color;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  section {
+    width: 98%;
+    background-color: #444444;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Position the event list at the bottom */
+    overflow-y: auto;
+  }
+}
