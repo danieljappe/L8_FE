@@ -10,30 +10,34 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  section {
-    width: 98%;
-    background-color: #444444;
-    padding: 1.5rem;
-    margin-top: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* Position the event list at the bottom */
-    overflow-y: auto;
-
-
-    .title-container {
-      flex: 1; /* Allow this container to grow and fill the available space */
-      background-color: #222; /* Optional: Background color for visibility */
-      padding: 1rem;
-      color: #fff; /* Adjust text color for visibility */
-      display: flex; /* Flexbox for aligning content */
-      flex-direction: column; /* Arrange children vertically */
-      justify-content: center; /* Center content vertically */
-      align-items: center; /* Center content horizontally */
-    }
   }
+  section {
+  width: 98%;
+  background-color: #444444;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Position the event list at the bottom */
+  overflow-y: auto;
+  }
+.title-container {
+  flex: 1; /* Allow this container to grow and fill the available space */
+  background-color: #222; /* Optional: Background color for visibility */
+  padding: 1rem;
+  color: #fff; /* Adjust text color for visibility */
+  display: flex; /* Flexbox for aligning content */
+  flex-direction: column; /* Arrange children vertically */
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+}
+.title-container p {
+  word-wrap: break-word; /* Ensure words break when they are too long */
+  word-break: break-all; /* Allow breaking inside long tokens */
+  white-space: pre-wrap; /* Preserve line breaks and whitespace from the content */
+  overflow-wrap: break-word; /* Modern alternative for breaking words */
+  max-width: 100%; /* Ensure it doesn't overflow its container */
 }

@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setToken } from '../store/authSlice';
-import {useHref} from "react-router-dom";
-
+import { setToken, setUser, clearAuth } from '../store/authSlice';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import "../assets/styles/pages/_loginpage.scss"
 
@@ -11,9 +9,11 @@ const LoginPage: React.FC = () => {
     const navigate = useNavigate(); // Initialize navigate
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState<string | null>(null);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
+        setError(null);
         try {
             const response = await fetch('http://localhost:5000/api/users/login', {
                 method: 'POST',
@@ -24,10 +24,12 @@ const LoginPage: React.FC = () => {
             if (response.ok) {
                 const data = await response.json();
                 dispatch(setToken(data.token)); // Save the token in Redux
-                alert('Login successful!');
-                navigate('/dashboard'); // Redirect to dashboard
+                dispatch(setUser(data.user)); // Save user in Redux
+                navigate('/dashboard');
             } else {
-                alert('Invalid credentials');
+                const errorData = await response.json()
+                setError(errorData.message || 'Internal error')
+
             }
         } catch (error) {
             console.error('Login error:', error);
@@ -37,12 +39,13 @@ const LoginPage: React.FC = () => {
     return (
         <div className="loginpage">
             <section>
-                <form onSubmit={handleLogin}>
+                <form onSubmit={handleLogin} className="login-form">
+                    {error && <p className="error-message">{error}</p>}
                     <input
                         type="username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        placeholder="Email"
+                        placeholder="Username"
                     />
                     <input
                         type="password"

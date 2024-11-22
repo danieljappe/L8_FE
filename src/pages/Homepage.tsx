@@ -16,6 +16,7 @@ import "slick-carousel/slick/slick-theme.css";
 const HomePage: React.FC = () => {
     const dispatch = useDispatch();
     const events = useSelector((state: RootState) => state.events.events);
+    const user = useSelector((state: any) => state.auth.user);
 
     const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -72,6 +73,13 @@ const HomePage: React.FC = () => {
     return (
         <div className="homepage">
             <section>
+                <div>
+                    {user ? (
+                        <p>You are logged in as: {user.username}</p>
+                    ) : (
+                        <p>You are not logged in.</p>
+                    )}
+                </div>
                 <div className="next-event-container">
                     <h1>Upcoming event:</h1>
                     {getUpcomingEvent() ? (
@@ -101,12 +109,12 @@ const HomePage: React.FC = () => {
                                         backgroundImage: `url(${stockImage})`
                                     }}
                                 >
-                                <div className='event-card-content'>
-                                    <a onClick={() => openModal(event)}>
-                                        <h3>{event.title}</h3>
-                                        <p>Date: {new Date(event.date).toLocaleDateString()}</p>
-                                    </a>
-                                </div>
+                                    <div className='event-card-content'>
+                                        <a onClick={() => openModal(event)}>
+                                            <h3>{event.title}</h3>
+                                            <p>Date: {new Date(event.date).toLocaleDateString()}</p>
+                                        </a>
+                                    </div>
                                 </div>
                             ))}
                         </Slider>
@@ -117,7 +125,7 @@ const HomePage: React.FC = () => {
 
             {isModalOpen && selectedEvent && (
                 <div className="modal-overlay" onClick={() => closeModal()}>
-                <div
+                    <div
                         className="modal"
                         onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
                     >
