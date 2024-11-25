@@ -59,7 +59,7 @@ const HomePage: React.FC = () => {
     };
 
 
-    const settings = {
+    const slider_settings = {
         className: "center",
         centerMode: true,
         infinite: true,
@@ -73,24 +73,15 @@ const HomePage: React.FC = () => {
     return (
         <div className="homepage">
             <section>
-                <div>
-                    {user ? (
-                        <p>You are logged in as: {user.username}</p>
-                    ) : (
-                        <p>You are not logged in.</p>
-                    )}
-                </div>
                 <div className="next-event-container">
-                    <h1>Upcoming event:</h1>
+                    <h1>Næste event:</h1>
                     {getUpcomingEvent() ? (
                         <div className="next-event-details">
-                            <h2>{getUpcomingEvent()?.title}</h2>
-                            <p>
-                                <strong>Date:</strong>{' '}
+                            <h1>{getUpcomingEvent()?.title}</h1>
+                            <h2>
                                 {getUpcomingEvent()?.date ? new Date(getUpcomingEvent()!.date).toLocaleDateString() : 'N/A'}
-                            </p>
-                            <p><strong>Description:</strong> {getUpcomingEvent()?.description}</p>
-                            <p><strong>Ticket Price:</strong> ${getUpcomingEvent()?.ticketPrice}</p>
+                            </h2>
+                            <p>{getUpcomingEvent()?.description}</p>
                         </div>
                     ) : (
                         <p>No upcoming events</p>
@@ -100,7 +91,7 @@ const HomePage: React.FC = () => {
                 <div className='event-list-container'>
                     <h2>Events:</h2>
                     <div className="slider-container">
-                        <Slider {...settings}>
+                        <Slider {...slider_settings}>
                             {events.map((event) => (
                                 <div
                                     key={event.id}

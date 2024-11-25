@@ -1,0 +1,93 @@
+@import '../base/variables';
+
+.create-event-container {
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #555;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+  h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: $text-color2;
+  }
+
+  section {
+    display: flex;
+    justify-content: center;
+  }
+
+  .event-form {
+    width: 100%; /* Full width of the container */
+    margin: 0 auto; /* Center the form */
+    padding: 1rem;
+
+    form {
+      display: flex;
+      flex-wrap: wrap; /* Allow items to wrap onto the next column */
+      gap: 1.5rem; /* Space between form groups */
+      justify-content: space-between; /* Space items evenly */
+
+      .form-group {
+        display: flex;
+        flex-direction: column; /* Keep label on top of input */
+        width: calc(50% - 1.5rem); /* Take half the width of the parent minus gap */
+        box-sizing: border-box;
+        background-color: #494949;
+        border-radius: 10px;
+        padding: 1rem; /* Add padding inside the form group */
+
+        label {
+          margin-bottom: 0.5rem; /* Space between label and input */
+          font-weight: bold;
+          color: $text-color2;
+          text-align: left;
+        }
+
+        input,
+        textarea,
+        select {
+          width: 100%; /* Full width of the container */
+          padding: 0.75rem;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          font-size: 1rem;
+          box-sizing: border-box; /* Ensure padding doesn't affect width */
+        }
+
+        textarea {
+          resize: vertical;
+          min-height: 100px;
+        }
+
+        input[type='file'] {
+          padding: 0;
+        }
+
+        input[type='checkbox'] {
+          width: auto;
+          margin-top: 0.25rem;
+        }
+      }
+
+      .submit-button {
+        align-self: center; /* Center the button horizontally */
+        width: 100%; /* Button stretches full width */
+        max-width: 300px; /* Limit button size */
+        padding: 0.75rem;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+  }
+}

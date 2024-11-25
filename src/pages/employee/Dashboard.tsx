@@ -7,30 +7,23 @@ import  '../../assets/styles/pages/_dashboard.scss'
 import {clearAuth} from "../../store/authSlice";
 import {useNavigate} from "react-router-dom";
 
+import Sidebar from "./dashboard_components/Sidebar"
+import DashboardContent from "./dashboard_components/DashboardContent"
+import Profile from "./dashboard_components/Profile"
+import CreateEvent from "./dashboard_components/CreateEvent"
+import CreateArtist from "./dashboard_components/CreateArtist"
+
 const Dashboard: React.FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate(); // Initialize navigate
     const token = useSelector((state: RootState) => state.auth.token);
-    const user = useSelector((state: any) => state.auth.user);
+    const [activeTab, setActiveTab] = useState('dashboard');
 
     useEffect(() => {
-        const fetchProtectedData = async () => {
-            if (!token) return;
-
-            try {
-                const response = await fetch('http://localhost:5000/api/users/dashboard', {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-
-                const data = await response.json();
-                console.log('Protected data:', data);
-            } catch (error) {
-                console.error('Error fetching protected data:', error);
-            }
-        };
-
-        fetchProtectedData();
-    }, [token]);
+        if (!token) {
+            navigate("/");
+        }
+    }, [token, navigate]);
 
     const handleLogout = () => {
         dispatch(clearAuth());
@@ -38,25 +31,34 @@ const Dashboard: React.FC = () => {
         navigate("/")
     }
 
-    return (
+    const renderContent = () => {
+        switch (activeTab) {
+            case 'dashboard':
+                return <DashboardContent />;
+            case 'profile':
+                return <Profile />;
+            case 'createEvent':
+                return <CreateEvent />;
+            case 'createArtist':
+                return <CreateArtist />
+            default:
+                return <DashboardContent />;
+        }
+    };
 
+    return (
         <div className="dashboard">
             <section>
-                <div className="title-container">
-                    <div>
-                        <h1>Welcome, {user.firstName} {user.lastName}!</h1>
-                        <p>Id: {user.id} </p>
-                        <p>Username: {user.username}</p>
-                        <p>Email: {user.email}</p>
-                        <p>Phone: {user.phone}</p>
+                <div className="dashboard-layout">
+                    <Sidebar setActiveTab={setActiveTab} handleLogout={handleLogout} />
+                    <div className="content">
+                        {renderContent()}
                     </div>
-                    <h2>Token:</h2>
-                    <p>${token}</p>
-                    <button onClick={handleLogout}>Logout</button>
                 </div>
             </section>
         </div>
     );
+
 };
 
 export default Dashboard;

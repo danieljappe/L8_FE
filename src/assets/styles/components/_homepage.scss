@@ -3,20 +3,20 @@
 @import '../base/variables';
 
 .homepage {
-  max-width: 95vw; // You can adjust this width based on your layout preference
+  max-width: 100vw; // You can adjust this width based on your layout preference
   margin: 0 auto; // Center the container
-  padding: 5rem 1rem; // Add padding for breathing space
+  padding: 3rem 0; // Add padding for breathing space
   background-color: $background-color;
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-x: hidden;
 
   section {
-    height: 82vh;
-    width: 98%;
+    height: 90vh;
+    width: 100%;
     background-color: #444444;
     padding: 1.5rem;
-    margin-top: 1.5rem;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -35,11 +35,28 @@
       flex-direction: column; /* Arrange children vertically */
       justify-content: center; /* Center content vertically */
       align-items: center; /* Center content horizontally */
+
+      .next-event-details {
+        h1 {
+          font-size: 4rem;
+
+        }
+        h2 {
+
+        }
+        h3 {
+
+        }
+        p {
+
+        }
+      }
     }
   }
 
   .event-list-container {
     background-color: #333333;
+    padding: 1rem;
 
     .slick-slide[aria-hidden="true"] .event-card-content {
       pointer-events: none; /* Prevent interaction */
@@ -48,6 +65,7 @@
     .slider-container{
       padding: 0.5rem;
       background-color: #555;
+      border-radius: 5%;
     }
 
     .slick-slide .event-card{

@@ -18,12 +18,11 @@ function App() {
                     <Route path='/' element={<HomePage />} />
                     <Route path='/events' element={<Eventspage/>} />
                     <Route path='/users/login' element={<Loginpage/>} />
-                    <Route
-                        path='/dashboard'
-                        element={
-                        <PrivateRoute>
-                            <Dashboard/>
-                        </PrivateRoute>
+                    <Route path='/dashboard'
+                           element={
+                            <PrivateRoute>
+                                <Dashboard/>
+                            </PrivateRoute>
                     } />
                 </Routes>
             </div>

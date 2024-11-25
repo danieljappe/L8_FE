@@ -10,12 +10,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between; // Ensures logo is on the left, links on the right
-  padding: 1rem;
-  background-color: $background-color;
+  padding: 0.5rem;
+  background-color: $header-color;
   border-bottom: 1px solid lighten($shadow-color, 60%);
   box-shadow: 0 4px 6px $shadow-color;
   transition: transform 0.3s ease;
   z-index: 1000;
+  height: auto;
 
   &.hidden {
     transform: translateY(-80%);
@@ -32,6 +33,10 @@
     margin-left: 1vw;
     border-radius: 50%;
     cursor: pointer;
+
+    &:hover{
+      transform: scale(1.15);
+    }
   }
 
   .nav-links {
