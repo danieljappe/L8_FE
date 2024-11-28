@@ -10,8 +10,8 @@ import {useNavigate} from "react-router-dom";
 import Sidebar from "./dashboard_components/Sidebar"
 import DashboardContent from "./dashboard_components/DashboardContent"
 import Profile from "./dashboard_components/Profile"
-import CreateEvent from "./dashboard_components/CreateEvent"
-import CreateArtist from "./dashboard_components/CreateArtist"
+import DashboardEvents from "./dashboard_components/DashboardEvents"
+import DashboardArtist from "./dashboard_components/DashboardArtist"
 
 const Dashboard: React.FC = () => {
     const dispatch = useDispatch();
@@ -37,10 +37,10 @@ const Dashboard: React.FC = () => {
                 return <DashboardContent />;
             case 'profile':
                 return <Profile />;
-            case 'createEvent':
-                return <CreateEvent />;
-            case 'createArtist':
-                return <CreateArtist />
+            case 'DashboardEvents':
+                return <DashboardEvents />;
+            case 'DashboardArtist':
+                return <DashboardArtist />
             default:
                 return <DashboardContent />;
         }

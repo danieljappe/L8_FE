@@ -8,7 +8,7 @@ export interface Event {
     location: string;
     ticketPrice: number;
     eventPicture: string;
-    published: number;
+    published: boolean;
     billetto_eventId: string;
 }
 
@@ -27,8 +27,11 @@ const eventsSlice = createSlice({
         setEvents(state, action: PayloadAction<Event[]>) {
             state.events = action.payload;
         },
+        deleteEvent(state, action: PayloadAction<string>) {
+            state.events = state.events.filter(event => event.id !== action.payload)
+        }
     },
 });
 
-export const { setEvents } = eventsSlice.actions;
+export const { setEvents, deleteEvent } = eventsSlice.actions;
 export default eventsSlice.reducer;

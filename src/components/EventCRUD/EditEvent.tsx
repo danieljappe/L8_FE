@@ -1,73 +1,59 @@
 import React, { useState } from 'react';
-import "../../../assets/styles/components/_createEvent.scss"
+import "../../assets/styles/components/_editEvents.scss";
+import apiService from "../../services/api";
+import { useDispatch } from "react-redux";
+import { setEvents } from "../../store/eventSlice";
 
-const CreateEvent: React.FC = () => {
-    const [eventData, setEventData] = useState<{
+interface EditEventProps {
+    event: {
+        id: string;
         title: string;
         description: string;
         date: string;
         location: string;
-        ticketPrice: string;
-        eventPicture: File | null;
+        ticketPrice: number;
+        eventPicture: string;
         published: boolean;
         billetto_eventId: string;
-    }>({
-        title: '',
-        description: '',
-        date: '',
-        location: '',
-        ticketPrice: '',
-        eventPicture: null,
-        published: false,
-        billetto_eventId: '',
-    });
+    };
+    onClose: () => void;
+}
+
+const EditEvent: React.FC<EditEventProps> = ({ event, onClose }) => {
+    const dispatch = useDispatch();
+    const [eventData, setEventData] = useState(event);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setEventData({ ...eventData, [name]: value });
     };
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            setEventData({ ...eventData, eventPicture: e.target.files[0] });
-        }
-    };
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        try{
-            const response = await fetch("http://localhost:5000/api/events", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(eventData), // Include eventData in the request body
-            });
+        try {
+            await apiService.updateEvent(eventData.id, eventData); // Update event via API
 
-            if(!response.ok) {
-                throw new Error(`Error posting event: ${response.status}`)
-            }
+            // Refresh events in the Redux store
+            const data = await apiService.getEvents();
+            const sortedEvents = data.sort(
+                (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+            );
+            dispatch(setEvents(sortedEvents));
 
-            const responseData = await response.json();
-            console.log("Event created succesfully", responseData);
+            // Close the modal
+            onClose();
 
-            setEventData({
-                title: '',
-                description: '',
-                date: '',
-                location: '',
-                ticketPrice: '',
-                eventPicture: null,
-                published: false,
-                billetto_eventId: '',
-            });
-            alert(`Event created successfully:\n${JSON.stringify(responseData, null, 2)}`);
+            alert(`Event updated successfully:\n${JSON.stringify(eventData, null, 2)}`);
         } catch (error) {
-            console.error('Error creating event:', error);
+            console.error('Error updating event:', error);
         }
     };
 
     return (
-        <div className="create-event-container">
-            <h1>Create Event</h1>
+        <div className="edit-event-container">
+            <div className="title-container">
+                <h1>Edit Event</h1>
+            </div>
             <section>
                 <div className="event-form">
                     <form onSubmit={handleSubmit}>
@@ -79,7 +65,6 @@ const CreateEvent: React.FC = () => {
                                 name="title"
                                 value={eventData.title}
                                 onChange={handleChange}
-                                placeholder="Enter event title"
                                 required
                             />
                         </div>
@@ -91,7 +76,6 @@ const CreateEvent: React.FC = () => {
                                 name="description"
                                 value={eventData.description}
                                 onChange={handleChange}
-                                placeholder="Enter event description"
                             ></textarea>
                         </div>
 
@@ -114,7 +98,6 @@ const CreateEvent: React.FC = () => {
                                 name="location"
                                 value={eventData.location}
                                 onChange={handleChange}
-                                placeholder="Enter event location"
                             />
                         </div>
 
@@ -126,18 +109,6 @@ const CreateEvent: React.FC = () => {
                                 name="ticketPrice"
                                 value={eventData.ticketPrice}
                                 onChange={handleChange}
-                                placeholder="Enter ticket price"
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="eventPicture">Event Picture</label>
-                            <input
-                                type="file"
-                                id="eventPicture"
-                                name="eventPicture"
-                                onChange={handleFileChange}
-                                accept="image/*"
                             />
                         </div>
 
@@ -150,7 +121,7 @@ const CreateEvent: React.FC = () => {
                                     name="published"
                                     checked={eventData.published}
                                     onChange={() =>
-                                        setEventData({...eventData, published: !eventData.published})
+                                        setEventData({ ...eventData, published: !eventData.published })
                                     }
                                 />
                             </div>
@@ -164,13 +135,14 @@ const CreateEvent: React.FC = () => {
                                 name="billetto_eventId"
                                 value={eventData.billetto_eventId}
                                 onChange={handleChange}
-                                placeholder="Enter Billetto Event ID"
                             />
                         </div>
 
-                        <button type="submit" className="submit-button">
-                            Create Event
-                        </button>
+                        <div className="button-container">
+                            <button type="submit" className="submit-button">
+                                Save Changes
+                            </button>
+                        </div>
                     </form>
                 </div>
             </section>
@@ -178,4 +150,4 @@ const CreateEvent: React.FC = () => {
     );
 };
 
-export default CreateEvent;
+export default EditEvent;

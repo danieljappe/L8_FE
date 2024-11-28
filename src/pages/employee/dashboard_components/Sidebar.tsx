@@ -11,8 +11,8 @@ const Sidebar: React.FC<SidebarProps> = ({ setActiveTab, handleLogout }) => {
             <ul>
                 <li onClick={() => setActiveTab('dashboard')}>Dashboard</li>
                 <li onClick={() => setActiveTab('profile')}>Profile</li>
-                <li onClick={() => setActiveTab('createEvent')}>Create Event</li>
-                <li onClick={() => setActiveTab('createArtist')}>Create Artist</li>
+                <li onClick={() => setActiveTab('DashboardEvents')}>Events</li>
+                <li onClick={() => setActiveTab('DashboardArtist')}>Artists</li>
                 <li onClick={() => setActiveTab('')}>About us</li>
             </ul>
             <button onClick={handleLogout} className="logout-button">

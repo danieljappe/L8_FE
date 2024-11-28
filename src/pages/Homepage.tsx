@@ -1,39 +1,26 @@
 // src/components/HomePage.tsx
 
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 
 import stockImage from '../assets/files/event3.jpg';
 import Slider from "react-slick"
-import { useDispatch, useSelector } from 'react-redux';
-import { Event, setEvents } from '../store/eventSlice';
+import { useSelector } from 'react-redux';
+import { Event} from '../store/eventSlice';
 import { RootState } from '../store';
-
 
 import '../assets/styles/components/_homepage.scss';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import useFetchEvents from "../hooks/fetchEvents";
 
 const HomePage: React.FC = () => {
-    const dispatch = useDispatch();
     const events = useSelector((state: RootState) => state.events.events);
     const user = useSelector((state: any) => state.auth.user);
 
     const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    useEffect(() => {
-        const fetchEvents = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/api/events');
-                const data = await response.json();
-                const sortedEvents = data.sort((a: { date: string | number | Date; }, b: { date: string | number | Date; }) => new Date(a.date).getTime() - new Date(b.date).getTime());
-                dispatch(setEvents(sortedEvents));
-            } catch (error) {
-                console.error('Failed to fetch events:', error);
-            }
-        };
-        fetchEvents()
-    }, [dispatch]);
+    useFetchEvents()
 
     const openModal = (event: Event) => {
         setSelectedEvent(event);
@@ -58,7 +45,6 @@ const HomePage: React.FC = () => {
         return upcomingEvent || null;
     };
 
-
     const slider_settings = {
         className: "center",
         centerMode: true,
@@ -68,7 +54,6 @@ const HomePage: React.FC = () => {
         speed: 500,
         initialSlide: getNextEventIndex() // Center the next upcoming event
     };
-
 
     return (
         <div className="homepage">

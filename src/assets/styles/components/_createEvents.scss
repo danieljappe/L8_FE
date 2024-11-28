@@ -1,0 +1,151 @@
+@import '../base/variables';
+
+.create-event-container {
+  margin: 2rem 0;
+  background-color: #555;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+  h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: $text-color2;
+  }
+
+  .event-form {
+    display: flex;
+    flex-wrap: wrap; /* Allow form groups to wrap */
+    gap: 1.5rem; /* Space between form groups */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically (if needed) */
+
+    form {
+      display: flex;
+      flex-wrap: wrap; /* Allow items to wrap onto the next column */
+      gap: 1.5rem; /* Space between form groups */
+      justify-content: space-between; /* Space items evenly */
+
+      .form-group {
+        display: flex;
+        flex-direction: column; /* Keep label on top of input */
+        width: calc(50% - 1.5rem); /* Take half the width of the parent minus gap */
+        box-sizing: border-box;
+        background-color: #494949;
+        border-radius: 10px;
+        padding: 1rem; /* Add padding inside the form group */
+
+        label {
+          margin-bottom: 0.5rem; /* Space between label and input */
+          font-weight: bold;
+          color: $text-color2;
+          text-align: left;
+        }
+
+        input,
+        textarea,
+        select {
+          width: 100%; /* Full width of the container */
+          padding: 0.75rem;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          font-size: 1rem;
+          box-sizing: border-box; /* Ensure padding doesn't affect width */
+        }
+
+        textarea {
+          resize: vertical;
+          min-height: 100px;
+        }
+
+        input[type='file'] {
+          padding: 0;
+        }
+
+        input[type='checkbox'] {
+          width: auto;
+          margin-top: 0.25rem;
+        }
+      }
+
+      .submit-button {
+        align-self: center; /* Ensure button aligns with the form container's center */
+        width: 100%; /* Full width if desired */
+        max-width: 300px; /* Set a maximum width */
+        padding: 0.75rem;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        text-align: center; /* Ensure text inside the button is centered */
+      }
+
+      .submit-button:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+
+  section {
+    width: 98%;
+    background-color: #444444;
+    padding: 0.5rem;
+    margin: 1.5rem 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow-y: auto;
+  }
+
+  .title-container {
+    background-color: #222;
+    padding: 1rem;
+    color: #fff;
+    text-align: center;
+  }
+  .button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Center the button horizontally */
+  }
+
+
+  /* General button styling */
+  button {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  /* Edit button styling */
+  .edit-btn {
+    background-color: #4caf50; /* Green */
+    color: #fff;
+    margin: 0 0.5rem;
+  }
+
+  .edit-btn:hover {
+    background-color: #45a049; /* Darker green */
+    transform: scale(1.05); /* Slight zoom effect */
+  }
+
+  /* Delete button styling */
+  .delete-btn {
+    background-color: #f44336; /* Red */
+    color: #fff;
+    margin: 0 0.5rem;
+  }
+
+  .delete-btn:hover {
+    background-color: #e53935; /* Darker red */
+    transform: scale(1.05); /* Slight zoom effect */
+  }
+}

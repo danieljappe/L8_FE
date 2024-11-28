@@ -1,9 +1,13 @@
 // src/types.ts
 
 export interface Event {
-    id: number;
+    id: string;
     title: string;
+    description: string;
     date: string;
     location: string;
-    description: string;
+    ticketPrice: number;
+    eventPicture: string;
+    published: boolean;
+    billetto_eventId: string;
 }

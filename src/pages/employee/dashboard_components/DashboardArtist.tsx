@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import "../../../assets/styles/components/_createArtist.scss"
 
-const CreateArtist: React.FC = () => {
+const DashboardArtist: React.FC = () => {
     const [eventData, setEventData] = useState<{
         title: string;
         description: string;
@@ -126,4 +126,4 @@ const CreateArtist: React.FC = () => {
     );
 };
 
-export default CreateArtist;
+export default DashboardArtist;
