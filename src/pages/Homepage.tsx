@@ -5,7 +5,7 @@ import React, {useState} from 'react';
 import stockImage from '../assets/files/event3.jpg';
 import Slider from "react-slick"
 import { useSelector } from 'react-redux';
-import { Event} from '../store/eventSlice';
+import { Artist} from '../store/eventSlice';
 import { RootState } from '../store';
 
 import '../assets/styles/components/_homepage.scss';
@@ -17,12 +17,12 @@ const HomePage: React.FC = () => {
     const events = useSelector((state: RootState) => state.events.events);
     const user = useSelector((state: any) => state.auth.user);
 
-    const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+    const [selectedEvent, setSelectedEvent] = useState<Artist | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useFetchEvents()
 
-    const openModal = (event: Event) => {
+    const openModal = (event: Artist) => {
         setSelectedEvent(event);
         setIsModalOpen(true);
     }
@@ -39,7 +39,7 @@ const HomePage: React.FC = () => {
         return index !== -1 ? index : 0; // Default to 0 if no future events
     };
 
-    const getUpcomingEvent = (): Event | null => {
+    const getUpcomingEvent = (): Artist | null => {
         const now = new Date().getTime();
         const upcomingEvent = events.find(event => event.date && new Date(event.date).getTime() > now);
         return upcomingEvent || null;

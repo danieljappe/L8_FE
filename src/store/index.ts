@@ -2,10 +2,12 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import {persistStore, persistReducer} from "redux-persist";
 import storage from 'redux-persist/lib/storage'
 import eventsReducer from '../store/eventSlice';
+import artistsReducer from '../store/artistSlice';
 import authReducer from './authSlice';
 
 const rootReducer = combineReducers({
     events: eventsReducer,
+    artists: artistsReducer,
     auth: authReducer
 })
 

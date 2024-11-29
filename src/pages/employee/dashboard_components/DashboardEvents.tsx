@@ -3,7 +3,7 @@ import "../../../assets/styles/components/_dashboardEvents.scss"
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../store";
 import CreateEvent from "../../../components/EventCRUD/CreateEvent";
-import {deleteEvent, Event} from "../../../store/eventSlice"
+import {deleteEvent, Artist} from "../../../store/eventSlice"
 import apiService from "../../../services/api";
 import useFetchEvents from "../../../hooks/fetchEvents";
 import Modal from "../../../components/Modal";
@@ -18,7 +18,7 @@ const DashboardEvents: React.FC = () => {
 
     useFetchEvents()
 
-    const openEditModal = (event: Event) => {
+    const openEditModal = (event: Artist) => {
         setModalContent(
             <EditEvent
                 event={event} // Pass the event to be edited
@@ -29,7 +29,6 @@ const DashboardEvents: React.FC = () => {
         );
         setIsModalOpen(true);
     };
-
 
     const openCreateModal = () => {
         setModalContent(
@@ -55,6 +54,7 @@ const DashboardEvents: React.FC = () => {
             console.error("Error deleting event:", error);
         }
     };
+
     return (
         <div className="container">
             <div className="eventslist">

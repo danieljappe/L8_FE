@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface Event {
+export interface Artist {
     id: string;
     title: string;
     description: string;
@@ -13,7 +13,7 @@ export interface Event {
 }
 
 interface EventsState {
-    events: Event[];
+    events: Artist[];
 }
 
 const initialState: EventsState = {
@@ -24,7 +24,7 @@ const eventsSlice = createSlice({
     name: 'events',
     initialState,
     reducers: {
-        setEvents(state, action: PayloadAction<Event[]>) {
+        setEvents(state, action: PayloadAction<Artist[]>) {
             state.events = action.payload;
         },
         deleteEvent(state, action: PayloadAction<string>) {
