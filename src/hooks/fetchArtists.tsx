@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import apiService from '../services/api';
 import { setArtists } from '../store/artistSlice';
 
-const useFetchEvents = () => {
+const useFetchArtists = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -20,4 +20,4 @@ const useFetchEvents = () => {
     }, [dispatch]);
 };
 
-export default useFetchEvents;
+export default useFetchArtists;

@@ -11,3 +11,11 @@ export interface Event {
     published: boolean;
     billetto_eventId: string;
 }
+
+export interface Artist{
+    id: string;
+    name: string;
+    description: string;
+    spotify_link: string;
+    artistPicture: string;
+}

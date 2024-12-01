@@ -5,6 +5,7 @@ export interface Artist {
     name: string;
     description: string;
     spotify_link: string;
+    artistPicture: string;
 }
 
 interface ArtistsState {

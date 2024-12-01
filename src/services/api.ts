@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { Event } from '../types';
+import { Event, Artist } from '../types';
 
 class ApiService {
     private api: AxiosInstance;
@@ -94,6 +94,16 @@ class ApiService {
             return response.data;
         } catch (error) {
             console.error('Error creating artist:', error);
+            throw error;
+        }
+    }
+
+    async updateArtist(id: string, artistData: Partial<Artist>): Promise<Artist> {
+        try {
+            const response = await this.api.put(`/artists/${id}`, artistData);
+            return response.data;
+        } catch (error) {
+            console.error(`Error updating artist with ID ${id}:`, error);
             throw error;
         }
     }
