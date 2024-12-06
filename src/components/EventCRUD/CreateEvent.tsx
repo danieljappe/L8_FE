@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import "../../assets/styles/components/_createEvents.scss"
+import React, { useEffect, useState } from 'react';
+import "../../assets/styles/components/_createEvents.scss";
 import apiService from "../../services/api";
-import {useDispatch} from "react-redux";
-import {setEvents} from "../../store/eventSlice";
+import { useDispatch } from "react-redux";
+import { setEvents } from "../../store/eventSlice";
+import { Artist } from "../../types";
 
 interface CreateEventProps {
     onClose: () => void;
@@ -10,7 +11,9 @@ interface CreateEventProps {
 
 const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
     const dispatch = useDispatch();
-
+    const [availableArtists, setAvailableArtists] = useState<Artist[]>([]);
+    const [loadingArtists, setLoadingArtists] = useState(true); // Track loading state
+    const [selectedArtistIds, setSelectedArtistIds] = useState<string[]>([]);
     const [eventData, setEventData] = useState<{
         title: string;
         description: string;
@@ -20,6 +23,7 @@ const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
         eventPicture: File | null;
         published: boolean;
         billetto_eventId: string;
+        artists: Artist[];
     }>({
         title: '',
         description: '',
@@ -29,7 +33,31 @@ const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
         eventPicture: null,
         published: false,
         billetto_eventId: '',
+        artists: []
     });
+
+    useEffect(() => {
+        const fetchArtists = async () => {
+            try {
+                const artists = await apiService.getArtists();
+                setAvailableArtists(artists);
+            } catch (error) {
+                console.error('Error fetching artists:', error);
+            } finally {
+                setLoadingArtists(false); // Update the loading state
+            }
+        };
+        fetchArtists();
+    }, []);
+
+    const handleArtistSelection = (artist: Artist) => {
+        const isSelected = selectedArtistIds.includes(artist.id);
+        const updatedArtistIds = isSelected
+            ? selectedArtistIds.filter((id) => id !== artist.id)
+            : [...selectedArtistIds, artist.id];
+
+        setSelectedArtistIds(updatedArtistIds);
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -44,29 +72,19 @@ const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        try{
-            const responseData = await apiService.createEvent(eventData)
-
-            setEventData({
-                title: '',
-                description: '',
-                date: '',
-                location: '',
-                ticketPrice: '',
-                eventPicture: null,
-                published: false,
-                billetto_eventId: '',
+        try {
+            const responseData = await apiService.createEvent({
+                ...eventData
             });
 
-            const data = await apiService.getEvents();
-            const sortedEvents = data.sort(
-                (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-            );
-            dispatch(setEvents(sortedEvents));
+            if (selectedArtistIds.length > 0) {
+                await apiService.addArtistsToEvent(responseData.id, selectedArtistIds);
+            }
 
-            onClose()
-
-            alert(`Event created successfully:\n${JSON.stringify(responseData, null, 2)}`);
+            const events = await apiService.getEvents();
+            dispatch(setEvents(events));
+            onClose();
+            alert(`Event created successfully!`);
         } catch (error) {
             console.error('Error creating event:', error);
         }
@@ -112,6 +130,7 @@ const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
                                 name="date"
                                 value={eventData.date}
                                 onChange={handleChange}
+                                required
                             />
                         </div>
 
@@ -124,6 +143,7 @@ const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
                                 value={eventData.location}
                                 onChange={handleChange}
                                 placeholder="Enter event location"
+                                required
                             />
                         </div>
 
@@ -136,6 +156,7 @@ const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
                                 value={eventData.ticketPrice}
                                 onChange={handleChange}
                                 placeholder="Enter ticket price"
+                                required
                             />
                         </div>
 
@@ -151,6 +172,26 @@ const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
                         </div>
 
                         <div className="form-group">
+                            <label htmlFor="artists">Artists</label>
+                            {loadingArtists ? (
+                                <p>Loading artists...</p>
+                            ) : availableArtists.length > 0 ? (
+                                availableArtists.map((artist) => (
+                                    <div key={artist.id}>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedArtistIds.includes(artist.id)}
+                                            onChange={() => handleArtistSelection(artist)}
+                                        />
+                                        {artist.name}
+                                    </div>
+                                ))
+                            ) : (
+                                <p>No artists available</p>
+                            )}
+                        </div>
+
+                        <div className="form-group">
                             <div className="checkbox">
                                 <label htmlFor="published">Published</label>
                                 <input
@@ -159,7 +200,7 @@ const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
                                     name="published"
                                     checked={eventData.published}
                                     onChange={() =>
-                                        setEventData({...eventData, published: !eventData.published})
+                                        setEventData({ ...eventData, published: !eventData.published })
                                     }
                                 />
                             </div>

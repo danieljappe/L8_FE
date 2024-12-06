@@ -7,19 +7,33 @@ const useFetchEvents = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const fetchEvents = async () => {
+        const fetchEventsWithArtists = async () => {
             try {
-                const data = await apiService.getEvents();
-                const sortedEvents = data.sort(
+                const events = await apiService.getEvents();
+                const sortedEvents = events.sort(
                     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
                 );
-                dispatch(setEvents(sortedEvents));
+
+                // Fetch artists for each event
+                const eventsWithArtists = await Promise.all(
+                    sortedEvents.map(async (event) => {
+                        try {
+                            const artists = await apiService.getArtistsByEvent(event.id);
+                            return { ...event, artists };
+                        } catch (error) {
+                            console.error(`Failed to fetch artists for event ${event.id}:`, error);
+                            return { ...event, artists: [] }; // Graceful fallback
+                        }
+                    })
+                );
+
+                dispatch(setEvents(eventsWithArtists));
             } catch (error) {
                 console.error('Failed to fetch events:', error);
             }
         };
 
-        fetchEvents();
+        fetchEventsWithArtists();
     }, [dispatch]);
 };
 

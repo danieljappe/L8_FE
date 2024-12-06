@@ -30,13 +30,13 @@ class ApiService {
     }
 
     async createEvent(eventData: {
-        title: string;
-        description: string;
         date: string;
-        location: string;
         ticketPrice: string;
         eventPicture: File | null;
+        description: string;
+        location: string;
         published: boolean;
+        title: string;
         billetto_eventId: string
     }): Promise<Event> {
         try {
@@ -116,6 +116,30 @@ class ApiService {
             throw error;
         }
     }
+
+    async getArtistsByEvent(eventId: string): Promise<Artist[]> {
+        try {
+            const response = await this.api.get(`/events/${eventId}/artists`);
+            return response.data; // Ensure this returns an array of artists
+        } catch (error) {
+            console.error(`Error fetching artists for event ${eventId}:`, error);
+            throw error;
+        }
+    }
+
+    async addArtistsToEvent(eventId: string, artistIds: string[]): Promise<void> {
+        try {
+            const response = await this.api.post('/events/addArtist', {
+                eventId,
+                artistIds, // Send an array of artist IDs
+            });
+            return response.data;
+        } catch (error) {
+            console.error(`Error adding artists to event ${eventId}:`, error);
+            throw error;
+        }
+    }
+
 
     // User Routes
     async getUsers(): Promise<any[]> {

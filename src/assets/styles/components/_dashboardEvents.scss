@@ -7,22 +7,28 @@
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeIn 0.6s ease-out forwards;
-
-  @keyframes fadeIn {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
   h1 {
     text-align: center;
     margin-bottom: 1.5rem;
     color: $text-color2;
   }
+  .artist-list {
+    padding: 10px 20px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #ddd;
+    list-style: none;
+
+    li {
+      padding: 5px 0;
+      border-bottom: 1px solid black;
+    }
+
+    p {
+      margin: 0;
+      color: #888;
+    }
+  }
+
 
   section {
     width: 98%;
@@ -70,6 +76,7 @@
     padding: 0.5rem 1rem;
     border-bottom: 1px solid #444;
     transition: background-color 0.3s ease, padding 0.3s ease;
+    align-items: center;
   }
 
   .event-row:hover {
@@ -83,7 +90,7 @@
   }
 
   .event-row > div {
-    padding: 0.5rem 1rem;
+
   }
 
   /* General button styling */
@@ -93,6 +100,7 @@
     border: none;
     font-size: 0.9rem;
     cursor: pointer;
+    max-height: fit-content;
     transition: background-color 0.3s ease, transform 0.2s ease;
   }
 

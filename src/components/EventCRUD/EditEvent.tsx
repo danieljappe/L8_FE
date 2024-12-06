@@ -3,6 +3,7 @@ import "../../assets/styles/components/_editEvents.scss";
 import apiService from "../../services/api";
 import { useDispatch } from "react-redux";
 import { setEvents } from "../../store/eventSlice";
+import {Artist} from "../../types";
 
 interface EditEventProps {
     event: {
@@ -15,6 +16,7 @@ interface EditEventProps {
         eventPicture: string;
         published: boolean;
         billetto_eventId: string;
+        artists: Artist[]
     };
     onClose: () => void;
 }

@@ -5,7 +5,7 @@ import React, {useState} from 'react';
 import stockImage from '../assets/files/event3.jpg';
 import Slider from "react-slick"
 import { useSelector } from 'react-redux';
-import { Artist} from '../store/eventSlice';
+import { Event } from '../store/eventSlice';
 import { RootState } from '../store';
 
 import '../assets/styles/components/_homepage.scss';
@@ -17,12 +17,12 @@ const HomePage: React.FC = () => {
     const events = useSelector((state: RootState) => state.events.events);
     const user = useSelector((state: any) => state.auth.user);
 
-    const [selectedEvent, setSelectedEvent] = useState<Artist | null>(null);
+    const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useFetchEvents()
 
-    const openModal = (event: Artist) => {
+    const openModal = (event: Event) => {
         setSelectedEvent(event);
         setIsModalOpen(true);
     }
@@ -39,7 +39,7 @@ const HomePage: React.FC = () => {
         return index !== -1 ? index : 0; // Default to 0 if no future events
     };
 
-    const getUpcomingEvent = (): Artist | null => {
+    const getUpcomingEvent = (): Event | null => {
         const now = new Date().getTime();
         const upcomingEvent = events.find(event => event.date && new Date(event.date).getTime() > now);
         return upcomingEvent || null;
@@ -67,6 +67,15 @@ const HomePage: React.FC = () => {
                                 {getUpcomingEvent()?.date ? new Date(getUpcomingEvent()!.date).toLocaleDateString() : 'N/A'}
                             </h2>
                             <p>{getUpcomingEvent()?.description}</p>
+                            <ul>
+                                {getUpcomingEvent()?.artists && getUpcomingEvent()!.artists.length > 0 ? (
+                                    getUpcomingEvent()!.artists.map((artist) => (
+                                        <li key={artist.id}>{artist.name}</li>
+                                    ))
+                                ) : (
+                                    <li>No artists found for this event.</li>
+                                )}
+                            </ul>
                         </div>
                     ) : (
                         <p>No upcoming events</p>
@@ -110,6 +119,15 @@ const HomePage: React.FC = () => {
                         <p><strong>Description:</strong> {selectedEvent.description}</p>
                         <p><strong>Date:</strong> {new Date(selectedEvent.date).toLocaleString()}</p>
                         <p><strong>Ticket Price:</strong> ${selectedEvent.ticketPrice}</p>
+                        <ul>
+                            {selectedEvent.artists && selectedEvent.artists.length > 0 ? (
+                                selectedEvent.artists.map((artist) => (
+                                    <li key={artist.id}>{artist.name}</li>
+                                ))
+                            ) : (
+                                <li>No artists found for this event.</li>
+                            )}
+                        </ul>
                         <button onClick={() => closeModal()} className="close-button">
                             Close
                         </button>

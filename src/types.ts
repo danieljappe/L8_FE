@@ -10,6 +10,7 @@ export interface Event {
     eventPicture: string;
     published: boolean;
     billetto_eventId: string;
+    artists: Artist[]
 }
 
 export interface Artist{
