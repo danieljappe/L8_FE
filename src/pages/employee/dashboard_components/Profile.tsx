@@ -1,5 +1,6 @@
 import React from 'react';
 import {useSelector} from "react-redux";
+import LoggedInDuration from "../../../components/LoggedInDuration";
 
 const Profile: React.FC = () => {
     const user = useSelector((state: any) => state.auth.user);
@@ -19,6 +20,7 @@ const Profile: React.FC = () => {
                 </div>
                 <h2>Token:</h2>
                 <p>${token}</p>
+                <LoggedInDuration/>
             </div>
         </div>
     );

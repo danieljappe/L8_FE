@@ -1,17 +1,37 @@
 import axios, { AxiosInstance } from 'axios';
 import { Event, Artist } from '../types';
+import store from "../store";
+import {selectToken} from "../store/authSlice";
 
 class ApiService {
     private api: AxiosInstance;
 
     constructor(baseURL: string) {
         this.api = axios.create({ baseURL });
+
+        // Attach Authorization token to every request
+        this.api.interceptors.request.use((config) => {
+            const token = selectToken(store.getState()); // Get the token from Redux
+
+            if (config.headers?.requiresAuth) {
+                if (!token) {
+                    // If requiresAuth is true and token is missing, throw an error
+                    return Promise.reject(new Error("No authentication token found."));
+                }
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+
+            delete config.headers.requiresAuth; // Clean up custom header
+            return config;
+        });
     }
 
     // Event Routes
-    async getEvents(): Promise<Event[]> {
+    async getAllEvents(): Promise<Event[]> {
         try {
-            const response = await this.api.get('/events');
+            const response = await this.api.get('/events', {
+                headers: { requiresAuth: false },
+            });
             return response.data;
         } catch (error) {
             console.error('Error fetching events:', error);
@@ -21,7 +41,9 @@ class ApiService {
 
     async getEventById(id: string): Promise<Event> {
         try {
-            const response = await this.api.get(`/events/${id}`);
+            const response = await this.api.get(`/events/${id}`,{
+                headers: { requiresAuth: false },
+            });
             return response.data;
         } catch (error) {
             console.error(`Error fetching event with ID ${id}:`, error);
@@ -40,7 +62,9 @@ class ApiService {
         billetto_eventId: string
     }): Promise<Event> {
         try {
-            const response = await this.api.post('/events', eventData);
+            const response = await this.api.post('/events', eventData, {
+                headers: { requiresAuth: true }
+            });
             return response.data;
         } catch (error) {
             console.error('Error creating event:', error);
@@ -50,7 +74,9 @@ class ApiService {
 
     async updateEvent(id: string, eventData: Partial<Event>): Promise<Event> {
         try {
-            const response = await this.api.put(`/events/${id}`, eventData);
+            const response = await this.api.put(`/events/${id}`, eventData, {
+                headers: { requiresAuth: true }
+            });
             return response.data;
         } catch (error) {
             console.error(`Error updating event with ID ${id}:`, error);
@@ -60,7 +86,9 @@ class ApiService {
 
     async deleteEvent(id: string): Promise<void> {
         try {
-            await this.api.delete(`/events/${id}`);
+            await this.api.delete(`/events/${id}`, {
+                headers: { requiresAuth: true }
+            });
         } catch (error) {
             console.error(`Error deleting event with ID ${id}:`, error);
             throw error;
@@ -70,7 +98,9 @@ class ApiService {
     // Artist Routes
     async getArtists(): Promise<any[]> {
         try {
-            const response = await this.api.get('/artists');
+            const response = await this.api.get('/artists', {
+                headers: { requiresAuth: true }
+            });
             return response.data;
         } catch (error) {
             console.error('Error fetching artists:', error);
@@ -80,7 +110,9 @@ class ApiService {
 
     async getArtistById(id: string): Promise<any> {
         try {
-            const response = await this.api.get(`/artists/${id}`);
+            const response = await this.api.get(`/artists/${id}`, {
+                headers: { requiresAuth: false }
+            });
             return response.data;
         } catch (error) {
             console.error(`Error fetching artist with ID ${id}:`, error);
@@ -90,7 +122,9 @@ class ApiService {
 
     async createArtist(artistData: any): Promise<any> {
         try {
-            const response = await this.api.post('/artists', artistData);
+            const response = await this.api.post('/artists', artistData, {
+                headers: { requiresAuth: true }
+            });
             return response.data;
         } catch (error) {
             console.error('Error creating artist:', error);
@@ -100,7 +134,9 @@ class ApiService {
 
     async updateArtist(id: string, artistData: Partial<Artist>): Promise<Artist> {
         try {
-            const response = await this.api.put(`/artists/${id}`, artistData);
+            const response = await this.api.put(`/artists/${id}`, artistData, {
+                headers: { requiresAuth: true }
+            });
             return response.data;
         } catch (error) {
             console.error(`Error updating artist with ID ${id}:`, error);
@@ -110,7 +146,9 @@ class ApiService {
 
     async deleteArtist(id: string): Promise<void> {
         try {
-            await this.api.delete(`/artists/${id}`);
+            await this.api.delete(`/artists/${id}`, {
+                headers: { requiresAuth: true }
+            });
         } catch (error) {
             console.error(`Error deleting artist with ID ${id}:`, error);
             throw error;
@@ -119,7 +157,9 @@ class ApiService {
 
     async getArtistsByEvent(eventId: string): Promise<Artist[]> {
         try {
-            const response = await this.api.get(`/events/${eventId}/artists`);
+            const response = await this.api.get(`/events/${eventId}/artists`, {
+                headers: { requiresAuth: false }
+            });
             return response.data; // Ensure this returns an array of artists
         } catch (error) {
             console.error(`Error fetching artists for event ${eventId}:`, error);
@@ -132,6 +172,9 @@ class ApiService {
             const response = await this.api.post('/events/addArtist', {
                 eventId,
                 artistIds, // Send an array of artist IDs
+            },
+            {
+                headers: { requiresAuth: true }
             });
             return response.data;
         } catch (error) {
@@ -144,7 +187,9 @@ class ApiService {
     // User Routes
     async getUsers(): Promise<any[]> {
         try {
-            const response = await this.api.get('/users');
+            const response = await this.api.get('/users', {
+                headers: { requiresAuth: true }
+            });
             return response.data;
         } catch (error) {
             console.error('Error fetching users:', error);
@@ -154,7 +199,9 @@ class ApiService {
 
     async deleteUser(id: string): Promise<void> {
         try {
-            await this.api.delete(`/users/${id}`);
+            await this.api.delete(`/users/${id}`, {
+                headers: { requiresAuth: true }
+            });
         } catch (error) {
             console.error(`Error deleting user with ID ${id}:`, error);
             throw error;
@@ -163,7 +210,9 @@ class ApiService {
 
     async loginUser(credentials: { email: string; password: string }): Promise<any> {
         try {
-            const response = await this.api.post('/users/login', credentials);
+            const response = await this.api.post('/users/login', credentials,{
+                headers: { requiresAuth: false }
+            });
             return response.data;
         } catch (error) {
             console.error('Error logging in user:', error);
@@ -173,7 +222,9 @@ class ApiService {
 
     async getDashboardData(): Promise<any> {
         try {
-            const response = await this.api.get('/users/dashboard');
+            const response = await this.api.get('/users/dashboard',{
+                headers: { requiresAuth: true }
+            });
             return response.data;
         } catch (error) {
             console.error('Error fetching dashboard data:', error);

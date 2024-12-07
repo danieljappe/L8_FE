@@ -9,7 +9,7 @@ const useFetchEvents = () => {
     useEffect(() => {
         const fetchEventsWithArtists = async () => {
             try {
-                const events = await apiService.getEvents();
+                const events = await apiService.getAllEvents();
                 const sortedEvents = events.sort(
                     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
                 );

@@ -36,7 +36,7 @@ const EditEvent: React.FC<EditEventProps> = ({ event, onClose }) => {
             await apiService.updateEvent(eventData.id, eventData); // Update event via API
 
             // Refresh events in the Redux store
-            const data = await apiService.getEvents();
+            const data = await apiService.getAllEvents();
             const sortedEvents = data.sort(
                 (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
             );

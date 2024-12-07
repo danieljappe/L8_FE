@@ -81,7 +81,7 @@ const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
                 await apiService.addArtistsToEvent(responseData.id, selectedArtistIds);
             }
 
-            const events = await apiService.getEvents();
+            const events = await apiService.getAllEvents();
             dispatch(setEvents(events));
             onClose();
             alert(`Event created successfully!`);
