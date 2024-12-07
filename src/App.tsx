@@ -4,6 +4,7 @@ import './App.css';
 import Header from "./components/Header";
 import HomePage from "./pages/Homepage";
 import Eventspage from "./pages/Eventspage";
+import EventPage from "./pages/EventPage";
 import Loginpage from "./pages/Loginpage";
 import Dashboard from "./pages/employee/Dashboard";
 import PrivateRoute from './components/PrivateRoute';
@@ -49,6 +50,20 @@ const App: React.FC = () => {
                                 transition={{ duration: 0.3, ease: "easeInOut" }}
                             >
                                 <Eventspage />
+                            </motion.div>
+                        }
+                    />
+                    <Route
+                        path="/event/:eventId"
+                        element={
+                            <motion.div
+                                variants={pageVariants}
+                                initial="initial"
+                                animate="animate"
+                                exit="exit"
+                                transition={{ duration: 0.3, ease: "easeInOut" }}
+                            >
+                                <EventPage />
                             </motion.div>
                         }
                     />

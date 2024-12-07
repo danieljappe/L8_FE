@@ -1,4 +1,4 @@
-// src/assets/styles/layout/_homepage.scss
+// src/assets/styles/layout/_eventspage.scss
 
 @import '../base/variables';
 
@@ -51,9 +51,10 @@
         cursor: pointer;
       }
 
-      .event-card-content{
-
+      .event-card-content {
+        color: $text-color;
       }
+
     }
   }
 }
