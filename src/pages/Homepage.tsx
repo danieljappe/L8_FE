@@ -1,9 +1,6 @@
-// src/components/HomePage.tsx
-
-import React, {useState} from 'react';
-
+import React, { useState } from 'react';
 import stockImage from '../assets/files/event3.jpg';
-import Slider from "react-slick"
+import Slider from "react-slick";
 import { useSelector } from 'react-redux';
 import { Event } from '../store/eventSlice';
 import { RootState } from '../store';
@@ -12,37 +9,31 @@ import '../assets/styles/components/_homepage.scss';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import useFetchEvents from "../hooks/fetchEvents";
+import useUpcomingEvent from "../hooks/fetchUpcomingEvent";
 
 const HomePage: React.FC = () => {
     const events = useSelector((state: RootState) => state.events.events);
-    const user = useSelector((state: any) => state.auth.user);
+    const upcomingEvent = useUpcomingEvent();
 
     const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    useFetchEvents()
+    useFetchEvents();
 
     const openModal = (event: Event) => {
         setSelectedEvent(event);
         setIsModalOpen(true);
-    }
+    };
 
-    const closeModal = (event?: React.MouseEvent) => {
+    const closeModal = () => {
         setSelectedEvent(null);
         setIsModalOpen(false);
     };
 
-    // Find the index of the next upcoming event
     const getNextEventIndex = (): number => {
         const now = new Date().getTime();
         const index = events.findIndex(event => new Date(event.date).getTime() > now);
         return index !== -1 ? index : 0; // Default to 0 if no future events
-    };
-
-    const getUpcomingEvent = (): Event | null => {
-        const now = new Date().getTime();
-        const upcomingEvent = events.find(event => event.date && new Date(event.date).getTime() > now);
-        return upcomingEvent || null;
     };
 
     const slider_settings = {
@@ -60,16 +51,18 @@ const HomePage: React.FC = () => {
             <section>
                 <div className="next-event-container">
                     <h1>Næste event:</h1>
-                    {getUpcomingEvent() ? (
+                    {upcomingEvent ? (
                         <div className="next-event-details">
-                            <h1>{getUpcomingEvent()?.title}</h1>
+                            <h1>{upcomingEvent.title}</h1>
                             <h2>
-                                {getUpcomingEvent()?.date ? new Date(getUpcomingEvent()!.date).toLocaleDateString() : 'N/A'}
+                                {upcomingEvent.date
+                                    ? new Date(upcomingEvent.date).toLocaleDateString()
+                                    : 'N/A'}
                             </h2>
-                            <p>{getUpcomingEvent()?.description}</p>
+                            <p>{upcomingEvent.description}</p>
                             <ul>
-                                {getUpcomingEvent()?.artists && getUpcomingEvent()!.artists.length > 0 ? (
-                                    getUpcomingEvent()!.artists.map((artist) => (
+                                {upcomingEvent.artists && upcomingEvent.artists.length > 0 ? (
+                                    upcomingEvent.artists.map((artist) => (
                                         <li key={artist.id}>{artist.name}</li>
                                     ))
                                 ) : (
@@ -106,10 +99,9 @@ const HomePage: React.FC = () => {
                     </div>
                 </div>
             </section>
-            <section></section>
 
             {isModalOpen && selectedEvent && (
-                <div className="modal-overlay" onClick={() => closeModal()}>
+                <div className="modal-overlay" onClick={closeModal}>
                     <div
                         className="modal"
                         onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
@@ -128,7 +120,7 @@ const HomePage: React.FC = () => {
                                 <li>No artists found for this event.</li>
                             )}
                         </ul>
-                        <button onClick={() => closeModal()} className="close-button">
+                        <button onClick={closeModal} className="close-button">
                             Close
                         </button>
                     </div>

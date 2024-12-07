@@ -51,9 +51,10 @@
         cursor: pointer;
       }
 
-      .event-card-content{
-
+      .event-card-content {
+        color: $text-color;
       }
+
     }
   }
 }
