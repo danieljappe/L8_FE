@@ -9,6 +9,7 @@ import Loginpage from "./pages/Loginpage";
 import Dashboard from "./pages/employee/Dashboard";
 import PrivateRoute from './components/PrivateRoute';
 import { AnimatePresence, motion } from "framer-motion";
+import AboutUs from "./pages/AboutUsPage";
 
 const App: React.FC = () => {
     const location = useLocation();
@@ -64,6 +65,20 @@ const App: React.FC = () => {
                                 transition={{ duration: 0.3, ease: "easeInOut" }}
                             >
                                 <EventPage />
+                            </motion.div>
+                        }
+                    />
+                    <Route
+                        path="/aboutus"
+                        element={
+                            <motion.div
+                                variants={pageVariants}
+                                initial="initial"
+                                animate="animate"
+                                exit="exit"
+                                transition={{ duration: 0.3, ease: "easeInOut" }}
+                            >
+                                <AboutUs />
                             </motion.div>
                         }
                     />

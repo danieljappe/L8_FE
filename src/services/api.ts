@@ -2,6 +2,7 @@ import axios, { AxiosInstance } from 'axios';
 import { Event, Artist } from '../types';
 import store from "../store";
 import {selectToken} from "../store/authSlice";
+import {convertFromRaw, EditorState} from "draft-js";
 
 class ApiService {
     private api: AxiosInstance;
@@ -228,6 +229,34 @@ class ApiService {
             return response.data;
         } catch (error) {
             console.error('Error fetching dashboard data:', error);
+            throw error;
+        }
+    }
+
+    async getAboutUs(): Promise<any> {
+        try {
+            const response = await this.api.get('/about', {
+                headers: { requiresAuth: false },
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching About Us content:', error);
+            throw error;
+        }
+    }
+
+    async updateAboutUs(content: string): Promise<any> {
+        try {
+            const response = await this.api.put(
+                '/about',
+                { content },
+                {
+                    headers: { requiresAuth: true },
+                }
+            );
+            return response.data;
+        } catch (error) {
+            console.error('Error updating About Us content:', error);
             throw error;
         }
     }

@@ -1,0 +1,43 @@
+@import "../base/variables";
+
+.aboutuspage{
+  max-width: 80vw; // You can adjust this width based on your layout preference
+  margin: 0 auto; // Center the container
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .aboutuspage {
+    .toolbar-class {
+      margin-bottom: 10px;
+    }
+
+    .wrapper-class {
+      border: 1px solid #ddd;
+      padding: 10px;
+    }
+
+    .editor-class {
+      min-height: 200px;
+    }
+  }
+
+
+  section {
+    width: 98%;
+    background-color: #444444;
+    padding: 0 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Position the event list at the bottom */
+    overflow-y: auto;
+
+    h1{
+      padding: 1rem;
+      background-color: #555
+    }
+  }
+
+}

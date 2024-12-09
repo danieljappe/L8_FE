@@ -12,6 +12,7 @@ import DashboardContent from "./dashboard_components/DashboardContent"
 import Profile from "./dashboard_components/Profile"
 import DashboardEvents from "./dashboard_components/DashboardEvents"
 import DashboardArtist from "./dashboard_components/DashboardArtist"
+import DashboardAboutUs from "./dashboard_components/DashboardAboutUs";
 
 const Dashboard: React.FC = () => {
     const dispatch = useDispatch();
@@ -40,7 +41,9 @@ const Dashboard: React.FC = () => {
             case 'DashboardEvents':
                 return <DashboardEvents />;
             case 'DashboardArtist':
-                return <DashboardArtist />
+                return <DashboardArtist />;
+            case 'DashboardAbout':
+                return <DashboardAboutUs />
             default:
                 return <DashboardContent />;
         }

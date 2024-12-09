@@ -13,7 +13,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setActiveTab, handleLogout }) => {
                 <li onClick={() => setActiveTab('profile')}>Profile</li>
                 <li onClick={() => setActiveTab('DashboardEvents')}>Events</li>
                 <li onClick={() => setActiveTab('DashboardArtist')}>Artists</li>
-                <li onClick={() => setActiveTab('')}>About us</li>
+                <li onClick={() => setActiveTab('DashboardAbout')}>About us</li>
             </ul>
             <button onClick={handleLogout} className="logout-button">
                 Logout
