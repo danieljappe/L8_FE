@@ -12,6 +12,7 @@ import apiService from "../../../services/api";
 
 const DashboardEvents: React.FC = () => {
     const dispatch = useDispatch();
+    const fetchEvents = useFetchEvents();
     const events = useSelector((state: RootState) => state.events.events); // Now includes artists
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState<React.ReactNode>(null);
@@ -22,7 +23,10 @@ const DashboardEvents: React.FC = () => {
         setModalContent(
             <EditEvent
                 event={event}
-                onClose={() => setIsModalOpen(false)}
+                onClose={() => {
+                    setIsModalOpen(false);
+                    fetchEvents(); // Refetch events after modal closes
+                }}
             />
         );
         setIsModalOpen(true);

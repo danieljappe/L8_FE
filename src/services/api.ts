@@ -184,6 +184,18 @@ class ApiService {
         }
     }
 
+    async removeArtistFromEvent(eventId: string, artistId: string): Promise<void> {
+        try {
+            await this.api.delete(`/events/${eventId}/artists/${artistId}`, {
+                headers: { requiresAuth: true },
+            });
+        } catch (error) {
+            console.error(`Error removing artist ${artistId} from event ${eventId}:`, error);
+            throw error;
+        }
+    }
+
+
 
     // User Routes
     async getUsers(): Promise<any[]> {

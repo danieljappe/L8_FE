@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import "../../assets/styles/components/_createEvents.scss";
 import apiService from "../../services/api";
-import { useDispatch } from "react-redux";
-import { setEvents } from "../../store/eventSlice";
+import {useSelector} from "react-redux";
 import { Artist } from "../../types";
+import useFetchArtists from "../../hooks/fetchArtists";
+import {RootState} from "../../store";
+import useFetchEvents from "../../hooks/fetchEvents";
 
 interface CreateEventProps {
     onClose: () => void;
 }
 
 const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
-    const dispatch = useDispatch();
+    const artists = useSelector((state: RootState) => state.artists.artists);
+    const fetchEvents = useFetchEvents();
     const [availableArtists, setAvailableArtists] = useState<Artist[]>([]);
-    const [loadingArtists, setLoadingArtists] = useState(true); // Track loading state
     const [selectedArtistIds, setSelectedArtistIds] = useState<string[]>([]);
     const [eventData, setEventData] = useState<{
         title: string;
@@ -35,20 +37,12 @@ const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
         billetto_eventId: '',
         artists: []
     });
+    useFetchArtists();
 
     useEffect(() => {
-        const fetchArtists = async () => {
-            try {
-                const artists = await apiService.getArtists();
-                setAvailableArtists(artists);
-            } catch (error) {
-                console.error('Error fetching artists:', error);
-            } finally {
-                setLoadingArtists(false); // Update the loading state
-            }
-        };
-        fetchArtists();
-    }, []);
+        setAvailableArtists(artists);
+    }, [artists]);
+
 
     const handleArtistSelection = (artist: Artist) => {
         const isSelected = selectedArtistIds.includes(artist.id);
@@ -81,8 +75,7 @@ const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
                 await apiService.addArtistsToEvent(responseData.id, selectedArtistIds);
             }
 
-            const events = await apiService.getAllEvents();
-            dispatch(setEvents(events));
+            await fetchEvents();
             onClose();
             alert(`Event created successfully!`);
         } catch (error) {
@@ -173,9 +166,7 @@ const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
 
                         <div className="form-group">
                             <label htmlFor="artists">Artists</label>
-                            {loadingArtists ? (
-                                <p>Loading artists...</p>
-                            ) : availableArtists.length > 0 ? (
+                            {availableArtists.length > 0 ? (
                                 availableArtists.map((artist) => (
                                     <div key={artist.id}>
                                         <input
@@ -200,7 +191,7 @@ const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
                                     name="published"
                                     checked={eventData.published}
                                     onChange={() =>
-                                        setEventData({ ...eventData, published: !eventData.published })
+                                        setEventData({...eventData, published: !eventData.published})
                                     }
                                 />
                             </div>

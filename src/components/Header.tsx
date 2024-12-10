@@ -39,7 +39,6 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                 <Link to={`/event/${upcomingEvent?.id}`}>Næste Event</Link>
                 <Link to="/events">Events</Link>
                 <Link to="/aboutus">Om L8</Link>
-                <Link to="#contact">Contact</Link>
                 <div>
                     {user ? (
                         <Link to="/dashboard">Dashboard</Link>
