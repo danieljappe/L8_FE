@@ -9,6 +9,8 @@ import EditEvent from "../../../components/EventCRUD/EditEvent";
 import { motion } from "framer-motion";
 import Modal from "../../../components/Modal";
 import apiService from "../../../services/api";
+import ConfirmModal from "../../../components/ConfirmModal";
+import {deleteArtist} from "../../../store/artistSlice";
 
 const DashboardEvents: React.FC = () => {
     const dispatch = useDispatch();
@@ -16,8 +18,11 @@ const DashboardEvents: React.FC = () => {
     const events = useSelector((state: RootState) => state.events.events); // Now includes artists
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState<React.ReactNode>(null);
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+    const [eventToDelete, setEventToDelete] = useState<string | null>(null);
 
-    useFetchEvents(); // Refactored hook fetches events with artists
+
+    useFetchEvents();
 
     const openEditModal = (event: Event) => {
         setModalContent(
@@ -44,13 +49,42 @@ const DashboardEvents: React.FC = () => {
         setIsModalOpen(false);
     };
 
+    const openConfirmModal = (id: string) => {
+        setEventToDelete(id);
+        setIsConfirmModalOpen(true);
+    };
+
     const handleDelete = async (id: string) => {
+        if (!eventToDelete) return;
+
         try {
             await apiService.deleteEvent(id);
             dispatch(deleteEvent(id));
         } catch (error) {
             console.error("Error deleting event:", error);
+        } finally {
+            setIsConfirmModalOpen(false)
+            setEventToDelete(null)
         }
+    };
+
+    const handleConfirmDelete = async () => {
+        if (!eventToDelete) return;
+
+        try {
+            await apiService.deleteEvent(eventToDelete);
+            dispatch(deleteEvent(eventToDelete));
+        } catch (error) {
+            console.error("Error deleting event:", error);
+        } finally {
+            setIsConfirmModalOpen(false);
+            setEventToDelete(null);
+        }
+    };
+
+    const handleCancelDelete = () => {
+        setIsConfirmModalOpen(false);
+        setEventToDelete(null);
     };
 
     const containerVariants = {
@@ -124,7 +158,7 @@ const DashboardEvents: React.FC = () => {
                                     </button>
                                     <button
                                         className="delete-btn"
-                                        onClick={() => handleDelete(event.id)}
+                                        onClick={() => openConfirmModal(event.id)}
                                     >
                                         Delete
                                     </button>
@@ -145,6 +179,12 @@ const DashboardEvents: React.FC = () => {
                     {modalContent}
                 </motion.div>
             </Modal>
+            <ConfirmModal
+                isOpen={isConfirmModalOpen}
+                message="Are you sure you want to delete this event?"
+                onConfirm={handleConfirmDelete}
+                onCancel={handleCancelDelete}
+            />
         </motion.div>
     );
 };
